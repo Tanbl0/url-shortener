@@ -4,7 +4,6 @@ const fs = require('fs');
 const { customAlphabet } = require('nanoid');
 
 const randomCode = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 6);
-const randomCode = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 6);
 const redis = require('./redis');
 
 const app = express();
@@ -46,8 +45,8 @@ api.post('/shorten', async (req, res) => {
     return res.status(400).json({ error: 'Invalid URL' });
   }
 
+  // Feature: Custom code support
   const code = (req.body.customCode || randomCode(6)).toLowerCase();
-  const code = randomCode(6).toLowerCase();
   await redis.set(code, url);
 
   return res.status(200).json({ code, short: `/${code}` });
